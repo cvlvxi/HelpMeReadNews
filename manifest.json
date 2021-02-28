@@ -1,0 +1,16 @@
+{
+    "name": "HelpMeReadNews",
+    "version": "1.0",
+    "description": "This will help me read the news",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "index.html",
+        "default_icon": {
+            "128": "images/icon.png"
+          }
+    },
+    "permissions": ["storage", "activeTab", "scripting"]
+  }
