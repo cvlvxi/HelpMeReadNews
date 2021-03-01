@@ -19,9 +19,17 @@ function highlightText() {
         return string[0] == '<' && string[string.length -1] == '>'
     }
 
-    function wrapSpanColor(node) {
+    function wrapSpanColor(node, toxicPercentage) {
+        // FIXME: You really want to lerp by the toxic Perc
+        let someBleh = 10.0;
+        let r = someBleh * toxicPercentage * 255;
+        let g = someBleh * (1 - toxicPercentage) * 255;
+        let b = 0 * 255;
+
+        console.log(r, g, b)
+
         let newNode = document.createElement("span")
-        newNode.setAttribute("style", "color: red");
+        newNode.setAttribute("style", `background-color: rgb(${r}, ${g}, ${b})`);
         let parent = node.parentNode;
         parent.insertBefore(newNode, node);
         newNode.appendChild(node);
@@ -38,7 +46,7 @@ function highlightText() {
             let content = node.textContent.trim()
             if (content && !checkTaggedString(content)) {
                 // Do stuff
-                wrapSpanColor(node)
+                wrapSpanColor(node, Math.random())
             }
         }
         // Get the child nodes
