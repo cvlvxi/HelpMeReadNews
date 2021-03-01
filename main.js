@@ -4,7 +4,7 @@ changeColor.addEventListener("click", async () => {
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    function: doStuff,
+    function: highlightText,
   });
 });
 
@@ -14,14 +14,17 @@ changeColor.addEventListener("click", async () => {
  * 2. Filter out certain tags 
  */
 
-function doStuff() {
-    let tagsToIgnore = 
-
-    function findTextNode(node, blackListedTags) {
+function highlightText() {
+    function findTextNode(node) {
         // If the node is a Text node do some manipulation
         if(node.constructor == Text) {
-            console.log("I am a text node")
-            console.log(node)
+            let content = node.textContent.trim()
+            if (content) {
+                console.log("HERE")
+                console.log(content)
+                window.dog = node
+            }
+            
         }
 
         // Get the child nodes
@@ -33,6 +36,7 @@ function doStuff() {
     let body = document.body;
 
     // Given a node
+    debugger
     for (childNode of body.childNodes) {
         findTextNode(childNode)
     }
