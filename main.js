@@ -15,18 +15,32 @@ changeColor.addEventListener("click", async () => {
  */
 
 function highlightText() {
-    function findTextNode(node) {
+    function checkTaggedString(string) {
+        return string[0] == '<' && string[string.length -1] == '>'
+    }
+
+    function wrapSpanColor(node) {
+        let newNode = document.createElement("span")
+        newNode.setAttribute("style", "color: red");
+        let parent = node.parentNode;
+        parent.insertBefore(newNode, node);
+        newNode.appendChild(node);
+    }
+
+    function findTextNode(node, notAllowedTags=["PRE", "CODE"]) {
+        // Skip the following node if notAllowedTag
+        if(notAllowedTags.some(tag => tag.toUpperCase() == node.nodeName.toUpperCase())) {
+            return;
+        }
+
         // If the node is a Text node do some manipulation
         if(node.constructor == Text) {
             let content = node.textContent.trim()
-            if (content) {
-                console.log("HERE")
-                console.log(content)
-                window.dog = node
+            if (content && !checkTaggedString(content)) {
+                // Do stuff
+                wrapSpanColor(node)
             }
-            
         }
-
         // Get the child nodes
         let cn = node.childNodes
         for(let childNode of cn) {
@@ -36,7 +50,6 @@ function highlightText() {
     let body = document.body;
 
     // Given a node
-    debugger
     for (childNode of body.childNodes) {
         findTextNode(childNode)
     }
